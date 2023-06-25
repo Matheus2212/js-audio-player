@@ -20,6 +20,9 @@ const AudioPlayer = {
                 canvas.querySelector('.js-audio-player-status').appendChild(this.mainTag);
                 document.getElementsByTagName('body')[0].append(canvas);
                 this.canvas = canvas;
+                if (this.mainTag.tagName == "IFRAME") {
+                        this.canvas.querySelector('.js-audio-player-image').style.backgroundImage = `url(https://img.youtube.com/vi/${this.currentItem.id}/1.jpg)`;
+                }
         },
         timeFormat: function (duration) {
                 // Hours, minutes and seconds
@@ -45,8 +48,10 @@ const AudioPlayer = {
                 if (this.options.hasOwnProperty('file') && typeof this.options.file === "string" && this.options.file !== "") {
                         let identification = this.identify(this.options.file);
                         if (identification === "audio") {
+                                this.currentItem = this.options.file;
                                 this.prepareAudio(this.options.file);
                         } else {
+                                this.currentItem = identification;
                                 this.prepareIframe(identification);
                         }
                 }
@@ -54,8 +59,10 @@ const AudioPlayer = {
 
                         let identification = this.identify(this.options.queue[this.index]);
                         if (identification === "audio") {
+                                this.currentItem = this.options.queue[this.index];
                                 this.prepareAudio(this.options.queue[this.index]);
                         } else {
+                                this.currentItem = identification;
                                 this.prepareIframe(identification);
                         }
                 }
@@ -188,7 +195,7 @@ const AudioPlayer = {
                                                 player.play();
                                         }
                                         if (player.tagName === "IFRAME") {
-                                                console.log(player);
+                                                player.src += '?autoplay=1';
                                         }
                                         wrapper.querySelector('[data-icon="pause"]').style.display = "inline-block";
                                         this.style.display = "none";

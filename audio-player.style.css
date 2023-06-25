@@ -29,6 +29,7 @@
   background-image: url("images/placeholder.png");
   background-repeat: no-repeat;
   background-size: contain;
+  background-position: center center;
 }
 
 .js-audio-player .js-audio-player-status {
